@@ -5,8 +5,8 @@ import "./globals.css";
 const roboto = Roboto({ subsets: ["latin"], weight: ["400", "500", "700"] });
 
 export const metadata: Metadata = {
-  title: "Avonvale Bowls Club",
-  description: "The Avonvale Bowls Club Website",
+  title: "St Annes Bowls Club",
+  description: "The St Annes Bowls Club Website",
 };
 
 export default function RootLayout({
