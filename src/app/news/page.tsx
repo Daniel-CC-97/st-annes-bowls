@@ -14,7 +14,6 @@ export default function Page() {
     const fetchNews = async () => {
       try {
         const allNews = await getNews();
-        console.log("Fetched news:", allNews);
         setNews(allNews);
       } catch (error) {
         console.error("Error fetching news: ", error);
