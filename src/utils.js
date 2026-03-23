@@ -5,6 +5,9 @@ const client = createClient({
   accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN,
 });
 
+console.log("Contentful space:", process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID);
+console.log("Contentful token:", process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN ? "set" : "not set");
+
 // Retrieve the list of small articles from Contentful
 export const getSmallArticles = async () => {
   const response = await client.getEntries({
@@ -53,6 +56,7 @@ export const getNews = async () => {
     order: "-sys.updatedAt",
   });
 
+  console.log("News response:", response);
   return response.items;
 };
 
