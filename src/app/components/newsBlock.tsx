@@ -35,7 +35,7 @@ const NewsBlock: React.FC<NewsProps> = ({
     <div className="flex flex-col justify-between lg:justify-start w-full bg-slate-200 text-primary-darker rounded-lg p-1 lg:p-2">
       <div className="flex justify-between">
         <h2 className="font-bold text-lg">{newsTitle}</h2>
-        <span className="text-secondary text-sm font-normal content-center">
+        <span className="text-secondary-darker text-sm font-normal content-center">
           {longDate}
         </span>
       </div>
