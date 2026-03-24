@@ -62,39 +62,74 @@ export default function Page() {
       new Date(b.fields.dateAndTime).getTime(),
   );
 
+  const groupedFixtures = sortedFixtures.reduce(
+    (acc, fixture) => {
+      const fixtureDate = new Date(fixture.fields.dateAndTime);
+      const dateKey = fixtureDate.toLocaleDateString("en-GB", {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+      });
+
+      if (!acc[dateKey]) {
+        acc[dateKey] = [];
+      }
+
+      acc[dateKey].push(fixture);
+      return acc;
+    },
+    {} as Record<string, any[]>,
+  );
+
   return (
     <div className="flex flex-col overflow-x-hidden min-h-screen">
       <NavBar />
       <Hero text="Fixtures" imageUrl="/bowl.jpg" height="small" />
-      <main className="flex-grow mx-auto w-full max-w-7xl px-2 sm:px-6 lg:px-8">
-        <div className="my-4">
-          <label
-            htmlFor="competition-select"
-            className="block text-sm font-medium text-primary"
-          >
-            Filter by Competition
-          </label>
-          <select
-            id="competition-select"
-            className="mt-1 block w-full bg-primary text-secondary-vibrant pl-3 pr-10 py-2 text-lg border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded-md"
-            value={selectedCompetition}
-            onChange={(e) => setSelectedCompetition(e.target.value)}
-          >
-            <option value="">All Competitions</option>
-            {competitions.map((competition, index) => (
-              <option key={index} value={competition}>
-                {competition}
-              </option>
+      <main className="flex-grow mx-auto w-full max-w-4xl px-6 py-10">
+        <section>
+          <h1 className="text-2xl font-semibold text-primary-darker mb-6">
+            Upcoming Fixtures
+          </h1>
+
+          <div className="mb-8">
+            <label
+              htmlFor="competition-select"
+              className="block text-sm font-medium text-primary mb-2"
+            >
+              Filter by Competition
+            </label>
+            <select
+              id="competition-select"
+              className="block w-full bg-primary text-secondary-vibrant px-3 py-3 text-lg border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary-lighter focus:border-secondary-lighter"
+              value={selectedCompetition}
+              onChange={(e) => setSelectedCompetition(e.target.value)}
+            >
+              <option value="">All Competitions</option>
+              {competitions.map((competition, index) => (
+                <option key={index} value={competition}>
+                  {competition}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="space-y-8">
+            {Object.entries(groupedFixtures).map(([dateLabel, fixtures]) => (
+              <div key={dateLabel}>
+                <h2 className="text-lg font-semibold text-primary-darker mb-3">
+                  {dateLabel}
+                </h2>
+                <div className="flex flex-col gap-4">
+                  {fixtures.map((fixture, index) => (
+                    <AnimateWrapper key={index}>
+                      <Fixture fixture={fixture} />
+                    </AnimateWrapper>
+                  ))}
+                </div>
+              </div>
             ))}
-          </select>
-        </div>
-        <div className="flex flex-col w-full gap-2">
-          {sortedFixtures.map((fixture, index) => (
-            <AnimateWrapper key={index}>
-              <Fixture fixture={fixture} />
-            </AnimateWrapper>
-          ))}
-        </div>
+          </div>
+        </section>
       </main>
       <Footer />
     </div>

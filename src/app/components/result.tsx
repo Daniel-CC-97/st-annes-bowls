@@ -28,7 +28,6 @@ const Result: React.FC<ResultProps> = ({ result }) => {
           {result.fields.teams[1]}
         </h6>
       </div>
-      <p className="text-sm block lg:hidden text-center">{longDate}</p>
       <p className="text-sm block font-bold lg:hidden text-center">
         <span className="font-normal mr-2">{result.fields.rinks} Rinks</span>
         {result.fields.venue}
@@ -41,7 +40,6 @@ const Result: React.FC<ResultProps> = ({ result }) => {
           </span>
         </h6>
         <p className="text-sm hidden lg:block">{result.fields.venue}</p>
-        <p className="text-sm hidden lg:block">{longDate}</p>
       </div>
     </div>
   );

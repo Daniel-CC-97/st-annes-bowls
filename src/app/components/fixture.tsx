@@ -31,7 +31,6 @@ const Fixture: React.FC<FixtureProps> = ({ fixture }) => {
           {fixture.fields.teams[1]}
         </h6>
       </div>
-      <p className="text-sm block lg:hidden text-center">{longDate}</p>
       <p className="text-sm block font-bold lg:hidden text-center">
         <span className="font-normal mr-2">{fixture.fields.rinks} Rinks</span>
         {fixture.fields.venue}
@@ -44,7 +43,6 @@ const Fixture: React.FC<FixtureProps> = ({ fixture }) => {
           </span>
         </h6>
         <p className="text-sm hidden lg:block">{fixture.fields.venue}</p>
-        <p className="text-sm hidden lg:block">{longDate}</p>
       </div>
     </div>
   );
