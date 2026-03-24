@@ -7,13 +7,26 @@
   --foreground-rgb: 0, 0, 0;
   --background-rgb: 248, 248, 255;
 
-  --primary: #004d79;
-  --secondary: #ec952c;
+  --primary: #761529;
+  --primary-darker: #4d0f1f;
+  --primary-lighter: #a32d4f;
+  --primary-saturated: #8b0f2a;
+  --primary-desaturated: #6b3a4a;
+  --primary-tinted-white: #ba8a94;
+  --primary-faded: rgba(118, 21, 41, 0.4);
 
-  --primary-rgb: rgb(0, 77, 121);
-  --secondary-rgb: rgb(236, 149, 44);
+  --primary-rgb: rgb(118, 21, 41);
+  --primary-darker-rgb: rgb(77, 15, 31);
 
-  --secondary-faded: rgba(236, 149, 44, 0.4); /* Adjust the opacity as needed */
+  --secondary: #a8d3f5;
+  --secondary-darker: #5ba8e0;
+  --secondary-lighter: #d4e8f9;
+  --secondary-vibrant: #9bd0f7;
+  --secondary-golden: #7bb3d7;
+  --secondary-warm: #a8c8f5;
+  --secondary-faded: rgba(168, 211, 245, 0.4);
+
+  --secondary-rgb: rgb(168, 211, 245);
 }
 
 html {
@@ -27,7 +40,7 @@ body {
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--secondary) var(--secondary-faded);
+  scrollbar-color: var(--primary) var(--primary-faded);
 }
 
 *::-webkit-scrollbar {
@@ -36,17 +49,22 @@ body {
 }
 
 *::-webkit-scrollbar-track {
-  background: var(--secondary-faded);
+  background: var(--primary-faded);
 }
 
 *::-webkit-scrollbar-thumb {
   background-color: var(--primary);
   border-radius: 4px;
-  border: 2px solid var(--secondary-faded);
+  border: 2px solid var(--primary-faded);
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+a {
+  color: var(--primary);
+  font-weight: bold;
 }
