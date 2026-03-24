@@ -38,7 +38,7 @@ export default function Page() {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white">
       <NavBar />
       <Hero text="Officers" imageUrl="/bowl.jpg" height="small" />
       <main className="flex-grow text-primary-darker mx-auto w-full max-w-4xl px-6 py-10">

@@ -82,7 +82,7 @@ export default function Page() {
   ][];
 
   return (
-    <div className="flex flex-col overflow-x-hidden min-h-screen">
+    <div className="flex flex-col overflow-x-hidden min-h-screen bg-white">
       <NavBar />
       <Hero text="Results" imageUrl="/bowl.jpg" height="small" />
       <main className="flex-grow mx-auto w-full max-w-4xl px-6 py-10">
@@ -100,7 +100,7 @@ export default function Page() {
             </label>
             <select
               id="competition-select"
-              className="block w-full bg-primary text-secondary-vibrant px-3 py-3 text-lg border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary-lighter focus:border-secondary-lighter"
+              className="block w-full bg-primary text-secondary-lighter px-3 py-3 text-lg border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary-lighter focus:border-secondary-lighter"
               value={selectedCompetition}
               onChange={(e) => setSelectedCompetition(e.target.value)}
             >

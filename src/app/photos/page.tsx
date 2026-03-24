@@ -11,7 +11,7 @@ import Masonry from "react-masonry-css";
 const masonryStyles = {
   container: "w-full max-w-7xl mx-auto px-2 sm:px-6 lg:px-8",
   item: "relative mb-6",
-  imageWrapper: "relative w-full overflow-hidden bg-slate-200 rounded-t-lg",
+  imageWrapper: "relative w-full overflow-hidden bg-gray-300 rounded-t-lg",
   image: "object-cover w-full h-full",
 };
 
@@ -31,7 +31,7 @@ export default function Page() {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white">
       <NavBar />
       <Hero text="Photos" imageUrl="/bowl.jpg" height="small" />
       <main className={masonryStyles.container}>
@@ -56,7 +56,7 @@ export default function Page() {
                         layout="responsive" // Adjust image based on its container's aspect ratio
                       />
                     </div>
-                    <div className="p-2 bg-slate-200 rounded-b-lg">
+                    <div className="p-2 bg-gray-300 rounded-b-lg">
                       <h4 className="font-bold">{image.fields.title}</h4>
                       <p>{image.fields.description}</p>
                     </div>

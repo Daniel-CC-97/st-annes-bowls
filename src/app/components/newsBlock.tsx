@@ -32,7 +32,7 @@ const NewsBlock: React.FC<NewsProps> = ({
   };
 
   return (
-    <div className="flex flex-col justify-between lg:justify-start w-full bg-slate-200 text-primary-darker rounded-lg p-1 lg:p-2">
+    <div className="flex flex-col justify-between lg:justify-start w-full bg-gray-300 text-primary-darker rounded-lg p-1 lg:p-2">
       <div className="flex justify-between">
         <h2 className="font-bold text-lg">{newsTitle}</h2>
         <span className="text-secondary-darker text-sm font-normal content-center">
@@ -52,7 +52,7 @@ const NewsBlock: React.FC<NewsProps> = ({
           </div>
         ))}
         {!isExpanded && needsButton && (
-          <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-slate-200 to-transparent" />
+          <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-gray-300 to-transparent" />
         )}
       </div>
       {needsButton && (

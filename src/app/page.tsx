@@ -34,7 +34,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white">
       <NavBar />
 
       {/* Hero Section */}
@@ -74,7 +74,7 @@ export default function Home() {
             </div>
 
             {/* Callout / Secondary Section */}
-            <div className="mt-12 p-6 border border-secondary-lighter bg-secondary-lighter/20 rounded-xl">
+            <div className="mt-12 p-6 border border-primary-lighter bg-secondary-vibrant/50 rounded-xl">
               <div className="text-primary-darker [&_p]:text-lg [&_p]:leading-relaxed [&_p]:mb-6 [&_p:last-child]:mb-0">
                 {homePageTexts &&
                   homePageTexts.length > 0 &&

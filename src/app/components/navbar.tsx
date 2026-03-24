@@ -92,7 +92,7 @@ const NavBar: React.FC<NavBarProps> = () => {
                     More
                   </button>
                   {isMoreMenuOpen && (
-                    <div className="absolute z-10 right-0 mt-2 w-48 bg-slate-200 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5">
+                    <div className="absolute z-10 right-0 mt-2 w-48 bg-gray-300 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5">
                       <Link href="/officers">
                         <h6 className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100">
                           Officers
@@ -145,7 +145,7 @@ const NavBar: React.FC<NavBarProps> = () => {
                 More
               </button>
               {isMoreMenuOpen && (
-                <div className="mt-2 w-full z-10 bg-slate-200 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5">
+                <div className="mt-2 w-full z-10 bg-gray-300 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5">
                   <Link href="/officers">
                     <h6 className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100">
                       Officers
