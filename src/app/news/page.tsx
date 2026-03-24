@@ -27,8 +27,8 @@ export default function Page() {
     <div className="flex flex-col min-h-screen">
       <NavBar />
       <Hero text="News" imageUrl="/bowl.jpg" height="small" />
-      <main className="flex-grow text-primary-darker mx-auto w-full max-w-7xl px-2 sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-2">
+      <main className="flex-grow text-primary-darker mx-auto w-full max-w-4xl px-6 py-10">
+        <div className="flex flex-col gap-4">
           {news.map((newsEntry, index) => (
             <NewsBlock
               key={index}

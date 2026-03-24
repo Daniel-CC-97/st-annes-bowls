@@ -76,6 +76,11 @@ export default function Page() {
     {} as Record<string, any[]>,
   );
 
+  const groupedResultsEntries = Object.entries(groupedResults) as [
+    string,
+    any[],
+  ][];
+
   return (
     <div className="flex flex-col overflow-x-hidden min-h-screen">
       <NavBar />
@@ -109,22 +114,26 @@ export default function Page() {
           </div>
 
           <div className="space-y-8">
-            {Object.entries(groupedResults).map(
-              ([dateLabel, resultsByDate]) => (
-                <div key={dateLabel}>
-                  <h2 className="text-lg font-semibold text-primary-darker mb-3">
-                    {dateLabel}
-                  </h2>
-                  <div className="flex flex-col gap-4">
-                    {resultsByDate.map((result, index) => (
+            {groupedResultsEntries.map(([dateLabel, resultsByDate]) => (
+              <div key={dateLabel}>
+                <h2 className="text-lg font-semibold text-primary-darker mb-3">
+                  {dateLabel}
+                </h2>
+                <div className="flex flex-col gap-4">
+                  {Array.isArray(resultsByDate) && resultsByDate.length > 0 ? (
+                    resultsByDate.map((result, index) => (
                       <AnimateWrapper key={index}>
                         <Result result={result} />
                       </AnimateWrapper>
-                    ))}
-                  </div>
+                    ))
+                  ) : (
+                    <p className="text-sm text-gray-500">
+                      No results for this date
+                    </p>
+                  )}
                 </div>
-              ),
-            )}
+              </div>
+            ))}
           </div>
         </section>
       </main>

@@ -42,7 +42,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-black/20" />
         <Container className="relative">
           <h1 className="text-4xl lg:text-6xl font-bold text-white text-center">
-            St Annes Bowls Club
+            St Anne's Bowls Club
           </h1>
           <p className="text-center text-white/90 text-lg mt-4">
             A welcoming community for all levels

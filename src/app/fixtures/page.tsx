@@ -81,6 +81,11 @@ export default function Page() {
     {} as Record<string, any[]>,
   );
 
+  const groupedFixturesEntries = Object.entries(groupedFixtures) as [
+    string,
+    any[],
+  ][];
+
   return (
     <div className="flex flex-col overflow-x-hidden min-h-screen">
       <NavBar />
@@ -114,17 +119,23 @@ export default function Page() {
           </div>
 
           <div className="space-y-8">
-            {Object.entries(groupedFixtures).map(([dateLabel, fixtures]) => (
+            {groupedFixturesEntries.map(([dateLabel, fixtures]) => (
               <div key={dateLabel}>
                 <h2 className="text-lg font-semibold text-primary-darker mb-3">
                   {dateLabel}
                 </h2>
                 <div className="flex flex-col gap-4">
-                  {fixtures.map((fixture, index) => (
-                    <AnimateWrapper key={index}>
-                      <Fixture fixture={fixture} />
-                    </AnimateWrapper>
-                  ))}
+                  {Array.isArray(fixtures) && fixtures.length > 0 ? (
+                    fixtures.map((fixture, index) => (
+                      <AnimateWrapper key={index}>
+                        <Fixture fixture={fixture} />
+                      </AnimateWrapper>
+                    ))
+                  ) : (
+                    <p className="text-sm text-gray-500">
+                      No fixtures for this date
+                    </p>
+                  )}
                 </div>
               </div>
             ))}
