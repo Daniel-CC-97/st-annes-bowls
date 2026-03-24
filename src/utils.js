@@ -1,67 +1,138 @@
 import { createClient } from "contentful";
+import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 
-const client = createClient({
-  space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID,
-  accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN,
-});
+const getClient = () => {
+  if (!process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN) {
+    throw new Error("Contentful access token not set");
+  }
+  return createClient({
+    space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID,
+    accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN,
+  });
+};
 
 // Retrieve the list of small articles from Contentful
 export const getSmallArticles = async () => {
-  const response = await client.getEntries({
-    content_type: "smallArticle",
-  });
+  try {
+    const client = getClient();
+    const response = await client.getEntries({
+      content_type: "smallArticle",
+    });
 
-  return response.items;
+    return response.items;
+  } catch (error) {
+    return [];
+  }
+};
+
+export const getHomePageText = async () => {
+  try {
+    console.log("[getHomePageText] Starting fetch...");
+    const client = getClient();
+    console.log("[getHomePageText] Client created");
+
+    const response = await client.getEntries({
+      content_type: "homePageBlock",
+    });
+
+    console.log(
+      "[getHomePageText] Fetch successful. Items:",
+      response.items.length,
+    );
+    if (response.items.length > 0) {
+      console.log(
+        "[getHomePageText] First item:",
+        JSON.stringify(response.items[0].fields, null, 2),
+      );
+    } else {
+      console.log("[getHomePageText] No items returned from Contentful");
+    }
+    return response.items;
+  } catch (error) {
+    console.error("[getHomePageText] Error:", error.message);
+    console.error("[getHomePageText] Full error:", error);
+    return [];
+  }
 };
 
 export const getGames = async () => {
-  const response = await client.getEntries({
-    content_type: "game",
-  });
+  try {
+    const client = getClient();
+    const response = await client.getEntries({
+      content_type: "game",
+    });
 
-  return response.items;
+    return response.items;
+  } catch (error) {
+    return [];
+  }
 };
 
 export const getOfficers = async () => {
-  const response = await client.getEntries({
-    content_type: "officer",
-    order: "fields.order",
-  });
+  try {
+    const client = getClient();
+    const response = await client.getEntries({
+      content_type: "officer",
+      order: "fields.order",
+    });
 
-  return response.items;
+    return response.items;
+  } catch (error) {
+    return [];
+  }
 };
 
 export const getImages = async () => {
-  const response = await client.getEntries({
-    content_type: "image",
-  });
+  try {
+    const client = getClient();
+    const response = await client.getEntries({
+      content_type: "image",
+    });
 
-  return response.items;
+    return response.items;
+  } catch (error) {
+    return [];
+  }
 };
 
 export const getGalleries = async () => {
-  const response = await client.getEntries({
-    content_type: "gallery",
-  });
+  try {
+    const client = getClient();
+    const response = await client.getEntries({
+      content_type: "gallery",
+    });
 
-  return response.items;
+    return response.items;
+  } catch (error) {
+    return [];
+  }
 };
 
 export const getNews = async () => {
-  const response = await client.getEntries({
-    content_type: "news",
-    order: "-sys.updatedAt",
-  });
+  try {
+    const client = getClient();
+    const response = await client.getEntries({
+      content_type: "news",
+      order: "-sys.updatedAt",
+    });
 
-  return response.items;
+    return response.items;
+  } catch (error) {
+    return [];
+  }
 };
 
 export const getHistory = async () => {
-  const response = await client.getEntries({
-    content_type: "history",
-  });
+  try {
+    const client = getClient();
+    const response = await client.getEntries({
+      content_type: "history",
+    });
 
-  return response.items;
+    return response.items;
+  } catch (error) {
+    return [];
+  }
 };
 
 // Get date from String
@@ -145,4 +216,15 @@ export const adjustIframeHeight = () => {
 
 const adjustSingleIframeHeight = (iframe) => {
   iframe.style.height = "1400px"; // Adjust height as needed
+};
+
+// Convert Contentful rich text to HTML
+export const richTextToHtml = (richText) => {
+  if (!richText) return "";
+  try {
+    return documentToHtmlString(richText);
+  } catch (error) {
+    console.error("Error converting rich text to HTML:", error);
+    return "";
+  }
 };
