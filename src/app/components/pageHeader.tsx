@@ -5,7 +5,7 @@ interface PageHeaderProps {
 
 const PageHeader: React.FC<PageHeaderProps> = ({ title, subtitle }) => {
   return (
-    <div className="relative bg-gradient-to-r from-secondary-lighter to-secondary-darker py-16 lg:py-26 overflow-hidden">
+    <div className="relative bg-gradient-to-r from-secondary-lighter to-secondary-darker py-16 lg:py-26">
       <div className="absolute inset-0 bg-black/20" />
       <div className="max-w-3xl mx-auto px-6 w-full relative">
         <h1 className="text-4xl lg:text-6xl font-bold text-white text-center">

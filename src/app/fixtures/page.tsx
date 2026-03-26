@@ -87,7 +87,7 @@ export default function Page() {
   ][];
 
   return (
-    <div className="flex flex-col overflow-x-hidden min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen w-full bg-white">
       <NavBar />
       <PageHeader title="Fixtures" />
       <main className="flex-grow mx-auto w-full max-w-4xl px-6 py-10">

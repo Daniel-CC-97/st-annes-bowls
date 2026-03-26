@@ -24,7 +24,7 @@ export default function Page() {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen w-full bg-white">
       <NavBar />
       <PageHeader title="News" />
       <main className="flex-grow text-primary-darker mx-auto w-full max-w-4xl px-6 py-10">
