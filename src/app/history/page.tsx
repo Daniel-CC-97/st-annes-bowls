@@ -1,7 +1,7 @@
 "use client";
 
 import NavBar from "../components/navbar";
-import Hero from "../components/hero";
+import PageHeader from "../components/pageHeader";
 import Footer from "../components/footer";
 import TextWithLineBreaks from "../components/textWithLineBreaks";
 import { useEffect, useState } from "react";
@@ -27,7 +27,7 @@ export default function Page() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <NavBar />
-      <Hero text="History" imageUrl="/bowl.jpg" height="small" />
+      <PageHeader title="History" />
       <main className="flex-grow mx-auto w-full max-w-4xl px-6 py-10">
         <section>
           {history.length > 0 && history[0]?.fields?.historyText && (

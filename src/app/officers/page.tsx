@@ -1,7 +1,7 @@
 "use client";
 
 import NavBar from "../components/navbar";
-import Hero from "../components/hero";
+import PageHeader from "../components/pageHeader";
 import Footer from "../components/footer";
 import { getOfficers } from "@/utils";
 
@@ -40,7 +40,7 @@ export default function Page() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <NavBar />
-      <Hero text="Officers" imageUrl="/bowl.jpg" height="small" />
+      <PageHeader title="Officers" />
       <main className="flex-grow text-primary-darker mx-auto w-full max-w-4xl px-6 py-10">
         <h2 className="font-bold text-xl mb-2">Management Committee</h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">

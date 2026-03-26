@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import NavBar from "../components/navbar";
-import Hero from "../components/hero";
+import PageHeader from "../components/pageHeader";
 import Footer from "../components/footer";
 import { getGalleries } from "@/utils";
 import Masonry from "react-masonry-css";
@@ -33,7 +33,7 @@ export default function Page() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <NavBar />
-      <Hero text="Photos" imageUrl="/bowl.jpg" height="small" />
+      <PageHeader title="Photos" />
       <main className={masonryStyles.container}>
         {galleries &&
           galleries.map((images, index) => (

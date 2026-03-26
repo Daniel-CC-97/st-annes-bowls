@@ -5,7 +5,7 @@ import Result from "../components/result";
 import Footer from "../components/footer";
 import NavBar from "../components/navbar";
 import { getGames } from "../../utils";
-import Hero from "../components/hero";
+import PageHeader from "../components/pageHeader";
 import AnimateWrapper from "../components/animatedComponent";
 
 interface FixtureType {
@@ -84,7 +84,7 @@ export default function Page() {
   return (
     <div className="flex flex-col overflow-x-hidden min-h-screen bg-white">
       <NavBar />
-      <Hero text="Results" imageUrl="/bowl.jpg" height="small" />
+      <PageHeader title="Results" />
       <main className="flex-grow mx-auto w-full max-w-4xl px-6 py-10">
         <section>
           <h1 className="text-2xl font-semibold text-primary-darker mb-6">

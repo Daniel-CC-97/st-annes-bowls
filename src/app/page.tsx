@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 import NavBar from "./components/navbar";
 import Footer from "./components/footer";
+import PageHeader from "./components/pageHeader";
 
 // Reusable container component for consistent spacing
 const Container = ({
@@ -37,18 +38,10 @@ export default function Home() {
     <div className="flex flex-col min-h-screen bg-white">
       <NavBar />
 
-      {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-secondary-lighter to-secondary-darker py-20 lg:py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-black/20" />
-        <Container className="relative">
-          <h1 className="text-4xl lg:text-6xl font-bold text-white text-center">
-            St Anne's Bowls Club
-          </h1>
-          <p className="text-center text-white/90 text-lg mt-4">
-            A welcoming community for all levels
-          </p>
-        </Container>
-      </div>
+      <PageHeader
+        title="St Anne's Bowls Club"
+        subtitle="A welcoming community for all levels"
+      />
 
       {/* Main Content */}
       <main className="flex-grow py-12">

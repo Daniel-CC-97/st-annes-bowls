@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 
 import NavBar from "../components/navbar";
-import Hero from "../components/hero";
+import PageHeader from "../components/pageHeader";
 import Footer from "../components/footer";
 import { getNews } from "@/utils";
 import NewsBlock from "../components/newsBlock";
@@ -26,7 +26,7 @@ export default function Page() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <NavBar />
-      <Hero text="News" imageUrl="/bowl.jpg" height="small" />
+      <PageHeader title="News" />
       <main className="flex-grow text-primary-darker mx-auto w-full max-w-4xl px-6 py-10">
         <div className="flex flex-col gap-4">
           {news.map((newsEntry, index) => (
