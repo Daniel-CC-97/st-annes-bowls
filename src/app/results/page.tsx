@@ -54,8 +54,8 @@ export default function Page() {
       )
     : results;
 
-  // Sort the filtered fixtures by date
-  const sortedResults = filteredResults.sort(
+  // Sort the filtered results by date without mutating original list
+  const sortedResults = [...filteredResults].sort(
     (a, b) =>
       new Date(a.fields.dateAndTime).getTime() -
       new Date(b.fields.dateAndTime).getTime(),

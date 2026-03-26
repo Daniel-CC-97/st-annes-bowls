@@ -2,145 +2,53 @@ import { createClient } from "contentful";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 
 const getClient = () => {
-  if (!process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN) {
-    throw new Error("Contentful access token not set");
+  const spaceId = process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID;
+  const accessToken = process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN;
+
+  if (!spaceId || !accessToken) {
+    throw new Error("Contentful environment variables are required.");
   }
+
   return createClient({
-    space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID,
-    accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN,
+    space: spaceId,
+    accessToken,
   });
 };
 
-// Retrieve the list of small articles from Contentful
-export const getSmallArticles = async () => {
+const fetchContentfulEntries = async (contentType, order) => {
   try {
     const client = getClient();
     const response = await client.getEntries({
-      content_type: "smallArticle",
+      content_type: contentType,
+      order,
     });
-
-    return response.items;
+    return response.items || [];
   } catch (error) {
+    console.error(`Error fetching ${contentType}:`, error);
     return [];
   }
 };
 
-export const getHomePageText = async () => {
-  try {
-    console.log("[getHomePageText] Starting fetch...");
-    const client = getClient();
-    console.log("[getHomePageText] Client created");
+export const getSmallArticles = async () =>
+  fetchContentfulEntries("smallArticle");
+export const getHomePageText = async () =>
+  fetchContentfulEntries("homePageBlock");
+export const getGames = async () => fetchContentfulEntries("game");
+export const getOfficers = async () =>
+  fetchContentfulEntries("officer", "fields.order");
+export const getImages = async () => fetchContentfulEntries("image");
+export const getGalleries = async () => fetchContentfulEntries("gallery");
+export const getNews = async () =>
+  fetchContentfulEntries("news", "-sys.updatedAt");
+export const getHistory = async () => fetchContentfulEntries("history");
 
-    const response = await client.getEntries({
-      content_type: "homePageBlock",
-    });
-
-    console.log(
-      "[getHomePageText] Fetch successful. Items:",
-      response.items.length,
-    );
-    if (response.items.length > 0) {
-      console.log(
-        "[getHomePageText] First item:",
-        JSON.stringify(response.items[0].fields, null, 2),
-      );
-    } else {
-      console.log("[getHomePageText] No items returned from Contentful");
-    }
-    return response.items;
-  } catch (error) {
-    console.error("[getHomePageText] Error:", error.message);
-    console.error("[getHomePageText] Full error:", error);
-    return [];
-  }
-};
-
-export const getGames = async () => {
-  try {
-    const client = getClient();
-    const response = await client.getEntries({
-      content_type: "game",
-    });
-
-    return response.items;
-  } catch (error) {
-    return [];
-  }
-};
-
-export const getOfficers = async () => {
-  try {
-    const client = getClient();
-    const response = await client.getEntries({
-      content_type: "officer",
-      order: "fields.order",
-    });
-
-    return response.items;
-  } catch (error) {
-    return [];
-  }
-};
-
-export const getImages = async () => {
-  try {
-    const client = getClient();
-    const response = await client.getEntries({
-      content_type: "image",
-    });
-
-    return response.items;
-  } catch (error) {
-    return [];
-  }
-};
-
-export const getGalleries = async () => {
-  try {
-    const client = getClient();
-    const response = await client.getEntries({
-      content_type: "gallery",
-    });
-
-    return response.items;
-  } catch (error) {
-    return [];
-  }
-};
-
-export const getNews = async () => {
-  try {
-    const client = getClient();
-    const response = await client.getEntries({
-      content_type: "news",
-      order: "-sys.updatedAt",
-    });
-
-    return response.items;
-  } catch (error) {
-    return [];
-  }
-};
-
-export const getHistory = async () => {
-  try {
-    const client = getClient();
-    const response = await client.getEntries({
-      content_type: "history",
-    });
-
-    return response.items;
-  } catch (error) {
-    return [];
-  }
-};
-
-// Get date from String
 export const getLongDate = (dateTimeString) => {
-  // Create a new Date object from the datetime string
   const date = new Date(dateTimeString);
 
-  // Define arrays for days of the week and months
+  if (Number.isNaN(date.getTime())) {
+    return "Invalid date";
+  }
+
   const daysOfWeek = [
     "Sunday",
     "Monday",
@@ -165,62 +73,46 @@ export const getLongDate = (dateTimeString) => {
     "December",
   ];
 
-  // Extract day, month, and year components
   const dayOfWeek = daysOfWeek[date.getDay()];
   const month = monthsOfYear[date.getMonth()];
   const day = date.getDate();
   const year = date.getFullYear();
 
-  // Determine the suffix for the day (st, nd, rd, or th)
-  let daySuffix;
-  if (day === 1 || day === 21 || day === 31) {
-    daySuffix = "st";
-  } else if (day === 2 || day === 22) {
-    daySuffix = "nd";
-  } else if (day === 3 || day === 23) {
-    daySuffix = "rd";
-  } else {
-    daySuffix = "th";
-  }
+  let daySuffix = "th";
+  if (day === 1 || day === 21 || day === 31) daySuffix = "st";
+  else if (day === 2 || day === 22) daySuffix = "nd";
+  else if (day === 3 || day === 23) daySuffix = "rd";
 
-  // Format the date as "DayOfWeek Month DayOfMonth Year"
-  const formattedDate = `${dayOfWeek} ${month} ${day}${daySuffix} ${year}`;
-
-  return formattedDate; // Output: Friday June 21st 2024
+  return `${dayOfWeek} ${month} ${day}${daySuffix} ${year}`;
 };
 
 export const splitArray = (arr) => {
-  const midpoint = Math.ceil(arr.length / 2); // Get the midpoint, rounding up to handle odd lengths
-  const firstHalf = arr.slice(0, midpoint); // First half of the array
-  const secondHalf = arr.slice(midpoint); // Second half of the array
-
-  return [firstHalf, secondHalf];
+  if (!Array.isArray(arr)) {
+    return [[], []];
+  }
+  const midpoint = Math.ceil(arr.length / 2);
+  return [arr.slice(0, midpoint), arr.slice(midpoint)];
 };
 
 export const adjustIframeHeight = () => {
-  var iframes = document.getElementsByTagName("iframe");
-  var loadCounter = 0;
+  const iframes = document.getElementsByTagName("iframe");
+  let loadedCount = 0;
 
-  for (var i = 0; i < iframes.length; i++) {
-    iframes[i].onload = function () {
-      loadCounter++;
-      if (loadCounter === iframes.length) {
-        // All iframes are loaded, adjust their heights
-        for (var j = 0; j < iframes.length; j++) {
-          adjustSingleIframeHeight(iframes[j]);
-        }
+  Array.from(iframes).forEach((iframe) => {
+    iframe.onload = () => {
+      loadedCount += 1;
+      if (loadedCount === iframes.length) {
+        Array.from(iframes).forEach((iframeItem) => {
+          iframeItem.style.height = "1400px";
+        });
       }
     };
-  }
+  });
 };
 
-const adjustSingleIframeHeight = (iframe) => {
-  iframe.style.height = "1400px"; // Adjust height as needed
-};
-
-// Convert Contentful rich text to HTML
 export const richTextToHtml = (richText) => {
   if (!richText) return "";
+
   try {
     return documentToHtmlString(richText);
   } catch (error) {

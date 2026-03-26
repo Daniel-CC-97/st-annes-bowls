@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -9,9 +9,22 @@ interface NavBarProps {}
 const NavBar: React.FC<NavBarProps> = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isMoreMenuOpen, setMoreMenuOpen] = useState(false);
+  const navRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(event.target as Node)) {
+        setMobileMenuOpen(false);
+        setMoreMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, []);
 
   return (
-    <nav className="bg-primary">
+    <nav ref={navRef} className="bg-primary">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div className="relative flex items-center justify-between h-20">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -69,20 +82,23 @@ const NavBar: React.FC<NavBarProps> = () => {
             </div>
             <div className="hidden sm:block sm:ml-6">
               <div className="flex space-x-4">
-                <Link href="/fixtures">
-                  <h6 className="text-white hover:bg-primary-lighter hover:text-secondary-vibrant px-3 py-2 rounded-md text-lg font-medium">
-                    Fixtures
-                  </h6>
+                <Link
+                  href="/fixtures"
+                  className="text-white hover:bg-primary-lighter hover:text-secondary-vibrant px-3 py-2 rounded-md text-lg font-medium"
+                >
+                  Fixtures
                 </Link>
-                <Link href="/results">
-                  <h6 className="text-white hover:bg-primary-lighter hover:text-secondary-vibrant px-3 py-2 rounded-md text-lg font-medium">
-                    Results
-                  </h6>
+                <Link
+                  href="/results"
+                  className="text-white hover:bg-primary-lighter hover:text-secondary-vibrant px-3 py-2 rounded-md text-lg font-medium"
+                >
+                  Results
                 </Link>
-                <Link href="/news">
-                  <h6 className="text-white hover:bg-primary-lighter hover:text-secondary-vibrant px-3 py-2 rounded-md text-lg font-medium">
-                    News
-                  </h6>
+                <Link
+                  href="/news"
+                  className="text-white hover:bg-primary-lighter hover:text-secondary-vibrant px-3 py-2 rounded-md text-lg font-medium"
+                >
+                  News
                 </Link>
                 <div className="relative">
                   <button
@@ -93,20 +109,23 @@ const NavBar: React.FC<NavBarProps> = () => {
                   </button>
                   {isMoreMenuOpen && (
                     <div className="absolute z-10 right-0 mt-2 w-48 bg-gray-300 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5">
-                      <Link href="/officers">
-                        <h6 className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100">
-                          Officers
-                        </h6>
+                      <Link
+                        href="/officers"
+                        className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100"
+                      >
+                        Officers
                       </Link>
-                      <Link href="/photos">
-                        <h6 className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100">
-                          Photos
-                        </h6>
+                      <Link
+                        href="/photos"
+                        className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100"
+                      >
+                        Photos
                       </Link>
-                      <Link href="/history">
-                        <h6 className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100">
-                          History
-                        </h6>
+                      <Link
+                        href="/history"
+                        className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100"
+                      >
+                        History
                       </Link>
                       {/* Add more options as needed */}
                     </div>
@@ -122,20 +141,23 @@ const NavBar: React.FC<NavBarProps> = () => {
       {isMobileMenuOpen && (
         <div className="sm:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1">
-            <Link href="/fixtures">
-              <h6 className="text-white hover:bg-primary-lighter hover:text-white block px-3 py-2 rounded-md text-base font-medium">
-                Fixtures
-              </h6>
+            <Link
+              href="/fixtures"
+              className="text-white hover:bg-primary-lighter hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+            >
+              Fixtures
             </Link>
-            <Link href="/results">
-              <h6 className="text-white hover:bg-primary-lighter hover:text-white block px-3 py-2 rounded-md text-base font-medium">
-                Results
-              </h6>
+            <Link
+              href="/results"
+              className="text-white hover:bg-primary-lighter hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+            >
+              Results
             </Link>
-            <Link href="/news">
-              <h6 className="text-white hover:bg-primary-lighter hover:text-white block px-3 py-2 rounded-md text-base font-medium">
-                News
-              </h6>
+            <Link
+              href="/news"
+              className="text-white hover:bg-primary-lighter hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+            >
+              News
             </Link>
             <div className="relative">
               <button
@@ -146,20 +168,23 @@ const NavBar: React.FC<NavBarProps> = () => {
               </button>
               {isMoreMenuOpen && (
                 <div className="mt-2 w-full z-10 bg-gray-300 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5">
-                  <Link href="/officers">
-                    <h6 className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100">
-                      Officers
-                    </h6>
+                  <Link
+                    href="/officers"
+                    className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100"
+                  >
+                    Officers
                   </Link>
-                  <Link href="/photos">
-                    <h6 className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100">
-                      Photos
-                    </h6>
+                  <Link
+                    href="/photos"
+                    className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100"
+                  >
+                    Photos
                   </Link>
-                  <Link href="/history">
-                    <h6 className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100">
-                      History
-                    </h6>
+                  <Link
+                    href="/history"
+                    className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100"
+                  >
+                    History
                   </Link>
                   {/* Add more options as needed */}
                 </div>
