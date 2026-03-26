@@ -27,6 +27,7 @@
   --secondary-faded: rgba(168, 211, 245, 0.4);
 
   --secondary-rgb: rgb(168, 211, 245);
+  --gray: #e5e7eb;
 }
 
 html {
@@ -42,7 +43,7 @@ body {
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--primary) var(--primary-faded);
+  scrollbar-color: var(--primary-tinted-white) var(--gray);
 }
 
 *::-webkit-scrollbar {
