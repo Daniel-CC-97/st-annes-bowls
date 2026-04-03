@@ -41,6 +41,8 @@ export const getGalleries = async () => fetchContentfulEntries("gallery");
 export const getNews = async () =>
   fetchContentfulEntries("news", "-sys.updatedAt");
 export const getHistory = async () => fetchContentfulEntries("history");
+export const getCompetitions = async () =>
+  fetchContentfulEntries("competitionleague");
 
 export const getLongDate = (dateTimeString) => {
   const date = new Date(dateTimeString);

@@ -9,26 +9,26 @@ import { useEffect, useState } from "react";
 import Officer from "../components/officer";
 
 export default function Page() {
-  const [officers, setOfficers] = useState<any>([]);
-  const [management, setManagement] = useState<any>([]);
-  const [viceManagement, setViceManagement] = useState<any>([]);
+  const [committee, setCommittee] = useState<any>([]);
+  const [captains, setCaptains] = useState<any>([]);
 
   useEffect(() => {
     const fetchOfficers = async () => {
       try {
         const allOfficers = await getOfficers();
-        const managementArray = allOfficers.filter(
-          (officer) => officer.fields.roleType === "Management Committee",
-        );
-        const viceManagementArray = allOfficers.filter(
-          (officer) => officer.fields.roleType === "Vice Committee",
-        );
-        const officersArray = allOfficers.filter(
-          (officer) => officer.fields.roleType === "Officer",
-        );
-        setManagement(managementArray);
-        setViceManagement(viceManagementArray);
-        setOfficers(officersArray);
+
+        const committeeArray = allOfficers.filter((officer) => {
+          const role = officer.fields.roleType;
+          return role === "Committee";
+        });
+
+        const captainsArray = allOfficers.filter((officer) => {
+          const role = officer.fields.roleType;
+          return role === "Captain";
+        });
+
+        setCommittee(committeeArray);
+        setCaptains(captainsArray);
       } catch (error) {
         console.error("Error fetching officers: ", error);
       }
@@ -42,24 +42,27 @@ export default function Page() {
       <NavBar />
       <PageHeader title="Officers" />
       <main className="flex-grow text-primary-darker mx-auto w-full max-w-4xl px-6 py-10">
-        <h2 className="font-bold text-xl mb-2">Management Committee</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
-          {management.map((manager, index) => (
-            <Officer key={index} officer={manager}></Officer>
-          ))}
-        </div>
-        <h2 className="font-bold text-xl mb-2 mt-4">Vice Committee</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
-          {viceManagement.map((manager, index) => (
-            <Officer key={index} officer={manager}></Officer>
-          ))}
-        </div>
-        <h2 className="font-bold text-xl mb-2 mt-4">Officers</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
-          {officers.map((officer, index) => (
-            <Officer key={index} officer={officer}></Officer>
-          ))}
-        </div>
+        {committee.length > 0 && (
+          <>
+            <h2 className="font-bold text-xl mb-2">Committee</h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
+              {committee.map((member, index) => (
+                <Officer key={index} officer={member} />
+              ))}
+            </div>
+          </>
+        )}
+
+        {captains.length > 0 && (
+          <>
+            <h2 className="font-bold text-xl mb-2 mt-4">Captains</h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
+              {captains.map((captain, index) => (
+                <Officer key={index} officer={captain} />
+              ))}
+            </div>
+          </>
+        )}
       </main>
       <Footer />
     </div>

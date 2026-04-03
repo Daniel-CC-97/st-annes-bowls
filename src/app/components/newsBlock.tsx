@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
-import { getLongDate } from "@/utils";
+import { getLongDate, richTextToHtml } from "@/utils";
 
 interface NewsProps {
   newsTitle: string;
-  newsContent: { content: { value: string }[] }[];
+  newsContent: any; // Contentful rich text document
   updatedAtDate: string;
 }
 
@@ -27,6 +27,8 @@ const NewsBlock: React.FC<NewsProps> = ({
     }
   }, [newsContent]);
 
+  console.log("News content: ", newsContent);
+
   const toggleExpanded = () => {
     setIsExpanded(!isExpanded);
   };
@@ -39,18 +41,14 @@ const NewsBlock: React.FC<NewsProps> = ({
           {longDate}
         </span>
       </div>
-      <div
-        ref={contentRef}
-        className={`relative overflow-hidden transition-max-height duration-500 ease-in-out ${
-          isExpanded ? "max-h-[3000px]" : "max-h-32"
-        }`}
-      >
-        {newsContent.map((contentArr, index) => (
-          <div key={index}>
-            <p>{contentArr.content[0].value}</p>
-            <br />
-          </div>
-        ))}
+      <div className="relative">
+        <div
+          ref={contentRef}
+          className={`overflow-hidden transition-max-height duration-500 ease-in-out text-primary-darker [&_p]:text-lg [&_p]:leading-relaxed [&_p]:mb-6 [&_p:last-child]:mb-0 ${
+            isExpanded ? "max-h-[3000px]" : "max-h-32"
+          }`}
+          dangerouslySetInnerHTML={{ __html: richTextToHtml(newsContent) }}
+        />
         {!isExpanded && needsButton && (
           <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-gray-300 to-transparent" />
         )}

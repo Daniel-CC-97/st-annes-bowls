@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Fixture from "../components/fixture";
 import Footer from "../components/footer";
 import NavBar from "../components/navbar";
-import { getGames } from "../../utils";
+import { getGames, getCompetitions } from "../../utils";
 import PageHeader from "../components/pageHeader";
 import AnimateWrapper from "../components/animatedComponent";
 
@@ -18,20 +18,10 @@ interface FixtureType {
   };
 }
 
-const competitions = [
-  "Saturday Friendlies",
-  "Sunday Friendlies",
-  "Midweek Friendlies",
-  "Floodlit League",
-  "Bristol North East League Dragons",
-  "Bristol North East League Blues",
-  "Friday Triples League",
-  "Glos County League",
-];
-
 export default function Page() {
   const [fixtures, setFixtures] = useState<any[]>([]);
   const [selectedCompetition, setSelectedCompetition] = useState<string>("");
+  const [competitionList, setCompetitionList] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchGames = async () => {
@@ -45,13 +35,27 @@ export default function Page() {
         console.error("Error fetching games: ", error);
       }
     };
+    const fetchCompetitions = async () => {
+      try {
+        const competitionsData = await getCompetitions();
+        const competitionNames = competitionsData.map(
+          (competition: any) => competition.fields.name,
+        );
+        setCompetitionList(competitionNames);
+        console.log("competitionsData: ", competitionsData);
+        console.log("competitionList: ", competitionList);
+      } catch (error) {
+        console.error("Error fetching competitions: ", error);
+      }
+    };
 
+    fetchCompetitions();
     fetchGames();
   }, []);
 
   const filteredFixtures = selectedCompetition
     ? fixtures.filter(
-        (fixture) => fixture.fields.competition === selectedCompetition,
+        (fixture) => fixture.fields.comp?.fields.name === selectedCompetition,
       )
     : fixtures;
 
@@ -86,6 +90,9 @@ export default function Page() {
     any[],
   ][];
 
+  console.log("fixtures: ", fixtures);
+  console.log("sorted fixtures: ", sortedFixtures);
+
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <NavBar />
@@ -110,7 +117,7 @@ export default function Page() {
               onChange={(e) => setSelectedCompetition(e.target.value)}
             >
               <option value="">All Competitions</option>
-              {competitions.map((competition, index) => (
+              {competitionList.map((competition, index) => (
                 <option key={index} value={competition}>
                   {competition}
                 </option>

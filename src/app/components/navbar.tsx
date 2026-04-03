@@ -88,12 +88,12 @@ const NavBar: React.FC<NavBarProps> = () => {
                 >
                   Fixtures
                 </Link>
-                <Link
+                {/* <Link
                   href="/results"
                   className="text-white hover:bg-primary-lighter hover:text-secondary-vibrant px-3 py-2 rounded-md text-lg font-medium"
                 >
                   Results
-                </Link>
+                </Link> */}
                 <Link
                   href="/news"
                   className="text-white hover:bg-primary-lighter hover:text-secondary-vibrant px-3 py-2 rounded-md text-lg font-medium"

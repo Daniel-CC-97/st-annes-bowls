@@ -33,9 +33,9 @@ export default function Page() {
             <NewsBlock
               key={index}
               newsTitle={newsEntry.fields.title}
-              newsContent={newsEntry.fields.body.content}
+              newsContent={newsEntry.fields.body}
               updatedAtDate={newsEntry.sys.updatedAt}
-            ></NewsBlock>
+            />
           ))}
         </div>
       </main>
