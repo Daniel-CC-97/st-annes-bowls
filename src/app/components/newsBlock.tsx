@@ -27,8 +27,6 @@ const NewsBlock: React.FC<NewsProps> = ({
     }
   }, [newsContent]);
 
-  console.log("News content: ", newsContent);
-
   const toggleExpanded = () => {
     setIsExpanded(!isExpanded);
   };
@@ -44,7 +42,7 @@ const NewsBlock: React.FC<NewsProps> = ({
       <div className="relative">
         <div
           ref={contentRef}
-          className={`overflow-hidden transition-max-height duration-500 ease-in-out text-primary-darker [&_p]:text-lg [&_p]:leading-relaxed [&_p]:mb-6 [&_p:last-child]:mb-0 ${
+          className={`overflow-hidden transition-max-height duration-500 ease-in-out text-slate-700 [&_p]:text-lg [&_p]:leading-relaxed [&_p]:mb-6 [&_p:last-child]:mb-0 ${
             isExpanded ? "max-h-[3000px]" : "max-h-32"
           }`}
           dangerouslySetInnerHTML={{ __html: richTextToHtml(newsContent) }}

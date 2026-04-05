@@ -42,8 +42,6 @@ export default function Page() {
           (competition: any) => competition.fields.name,
         );
         setCompetitionList(competitionNames);
-        console.log("competitionsData: ", competitionsData);
-        console.log("competitionList: ", competitionList);
       } catch (error) {
         console.error("Error fetching competitions: ", error);
       }
@@ -89,9 +87,6 @@ export default function Page() {
     string,
     any[],
   ][];
-
-  console.log("fixtures: ", fixtures);
-  console.log("sorted fixtures: ", sortedFixtures);
 
   return (
     <div className="flex flex-col min-h-screen bg-white">

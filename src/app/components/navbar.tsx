@@ -139,7 +139,7 @@ const NavBar: React.FC<NavBarProps> = () => {
 
       {/* Mobile menu, show/hide based on menu state. */}
       {isMobileMenuOpen && (
-        <div className="sm:hidden">
+        <div className="fixed top-20 left-0 right-0 z-50 bg-primary sm:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1">
             <Link
               href="/fixtures"
@@ -147,12 +147,12 @@ const NavBar: React.FC<NavBarProps> = () => {
             >
               Fixtures
             </Link>
-            <Link
+            {/* <Link
               href="/results"
               className="text-white hover:bg-primary-lighter hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             >
               Results
-            </Link>
+            </Link> */}
             <Link
               href="/news"
               className="text-white hover:bg-primary-lighter hover:text-white block px-3 py-2 rounded-md text-base font-medium"
@@ -167,7 +167,7 @@ const NavBar: React.FC<NavBarProps> = () => {
                 More
               </button>
               {isMoreMenuOpen && (
-                <div className="mt-2 w-full z-10 bg-gray-300 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5">
+                <div className="absolute top-full left-0 w-full z-10 bg-gray-300 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5">
                   <Link
                     href="/officers"
                     className="block px-4 py-2 text-lg text-gray-700 hover:bg-gray-100"

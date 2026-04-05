@@ -15,12 +15,13 @@ const getClient = () => {
   });
 };
 
-const fetchContentfulEntries = async (contentType, order) => {
+const fetchContentfulEntries = async (contentType, order, limit) => {
   try {
     const client = getClient();
     const response = await client.getEntries({
       content_type: contentType,
       order,
+      limit,
     });
     return response.items || [];
   } catch (error) {
@@ -33,7 +34,8 @@ export const getSmallArticles = async () =>
   fetchContentfulEntries("smallArticle");
 export const getHomePageText = async () =>
   fetchContentfulEntries("homePageBlock");
-export const getGames = async () => fetchContentfulEntries("game");
+export const getGames = async () =>
+  fetchContentfulEntries("game", undefined, 1000);
 export const getOfficers = async () =>
   fetchContentfulEntries("officer", "fields.order");
 export const getImages = async () => fetchContentfulEntries("image");
