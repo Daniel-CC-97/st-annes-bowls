@@ -7,7 +7,7 @@ const Footer: React.FC<FooterProps> = () => {
     <div className=" bg-primary relative flex items-center justify-center h-20 mt-4 lg:mt-8">
       <Image
         src="/st-annes-bowls.png"
-        alt="Avonvale Bowls Club Logo"
+        alt="St Anne'sBowls Club Logo"
         width={64}
         height={64}
       />

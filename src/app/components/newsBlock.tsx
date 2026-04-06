@@ -35,7 +35,7 @@ const NewsBlock: React.FC<NewsProps> = ({
     <div className="flex flex-col justify-between lg:justify-start w-full bg-gray-300 text-primary-darker rounded-lg p-1 lg:p-2">
       <div className="flex justify-between">
         <h2 className="font-bold text-lg">{newsTitle}</h2>
-        <span className="text-secondary-darker text-sm font-normal content-center">
+        <span className="text-secondary-darker font-bold text-sm content-center">
           {longDate}
         </span>
       </div>
@@ -53,7 +53,7 @@ const NewsBlock: React.FC<NewsProps> = ({
       </div>
       {needsButton && (
         <button
-          className="mt-2 self-middle lg:self-end bg-primary-lighter text-secondary-vibrant font-bold py-1 px-3 rounded"
+          className="mt-2 self-middle lg:self-end bg-secondary-darker text-primary-darker font-bold py-1 px-3 rounded"
           onClick={toggleExpanded}
         >
           {isExpanded ? "Read Less" : "Read More"}

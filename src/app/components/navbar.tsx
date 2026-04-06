@@ -74,7 +74,7 @@ const NavBar: React.FC<NavBarProps> = () => {
               <Link href="/">
                 <Image
                   src="/st-annes-bowls.png"
-                  alt="Avonvale Bowls Club Logo"
+                  alt="St Anne's Bowls Club Logo"
                   width={64}
                   height={64}
                 />
