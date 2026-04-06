@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://avonvale-bowls-club.vercel.app/
+Host: https://st-annes-bowls.vercel.app/
 
 # Sitemaps
-Sitemap: https://avonvale-bowls-club.vercel.app/sitemap.xml
+Sitemap: https://st-annes-bowls.vercel.app/sitemap.xml
