@@ -27,7 +27,10 @@ export default function Page() {
   const [teamList, setTeamList] = useState<string[]>([]);
   const [teamSearchTerm, setTeamSearchTerm] = useState<string>("");
   const [isTeamDropdownOpen, setIsTeamDropdownOpen] = useState<boolean>(false);
+  const [isCompetitionDropdownOpen, setIsCompetitionDropdownOpen] =
+    useState<boolean>(false);
   const teamInputRef = useRef<HTMLInputElement>(null);
+  const competitionInputRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -36,6 +39,12 @@ export default function Page() {
         !teamInputRef.current.contains(event.target as Node)
       ) {
         setIsTeamDropdownOpen(false);
+      }
+      if (
+        competitionInputRef.current &&
+        !competitionInputRef.current.contains(event.target as Node)
+      ) {
+        setIsCompetitionDropdownOpen(false);
       }
     };
 
@@ -103,6 +112,20 @@ export default function Page() {
     setIsTeamDropdownOpen(false);
   };
 
+  const handleCompetitionFocus = () => {
+    setIsCompetitionDropdownOpen(true);
+  };
+
+  const handleCompetitionSelect = (competition: string) => {
+    setSelectedCompetition(competition);
+    setIsCompetitionDropdownOpen(false);
+  };
+
+  const clearCompetitionFilter = () => {
+    setSelectedCompetition("");
+    setIsCompetitionDropdownOpen(false);
+  };
+
   const filteredResults = results.filter((result) => {
     const competitionMatch =
       !selectedCompetition ||
@@ -157,19 +180,53 @@ export default function Page() {
               >
                 Filter by Competition
               </label>
-              <select
-                id="competition-select"
-                className="block w-full bg-primary text-secondary-lighter px-3 py-3 text-lg border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary-lighter focus:border-secondary-lighter h-12"
-                value={selectedCompetition}
-                onChange={(e) => setSelectedCompetition(e.target.value)}
-              >
-                <option value="">All Competitions</option>
-                {competitionList.map((competition, index) => (
-                  <option key={index} value={competition}>
-                    {competition}
-                  </option>
-                ))}
-              </select>
+              <div className="relative" ref={competitionInputRef}>
+                <div
+                  id="competition-select"
+                  className="block w-full bg-primary text-secondary-lighter px-3 py-3 text-lg border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary-lighter focus:border-secondary-lighter h-12 cursor-pointer flex items-center justify-between"
+                  onClick={handleCompetitionFocus}
+                >
+                  <span>{selectedCompetition || "All Competitions"}</span>
+                  <span className="text-secondary-lighter">▼</span>
+                </div>
+                {selectedCompetition && (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      clearCompetitionFilter();
+                    }}
+                    className="absolute right-8 top-1/2 transform -translate-y-1/2 text-secondary-lighter hover:text-gray-300"
+                  >
+                    ×
+                  </button>
+                )}
+                {isCompetitionDropdownOpen && (
+                  <div className="absolute z-10 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto mt-1">
+                    <div
+                      className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-primary"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleCompetitionSelect("");
+                      }}
+                    >
+                      All Competitions
+                    </div>
+                    {competitionList.map((competition, index) => (
+                      <div
+                        key={index}
+                        className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-primary"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleCompetitionSelect(competition);
+                        }}
+                      >
+                        {competition}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="h-20">
@@ -231,6 +288,7 @@ export default function Page() {
                   setSelectedTeam("");
                   setTeamSearchTerm("");
                   setIsTeamDropdownOpen(false);
+                  setIsCompetitionDropdownOpen(false);
                 }}
                 className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors duration-200 text-sm font-medium"
               >
