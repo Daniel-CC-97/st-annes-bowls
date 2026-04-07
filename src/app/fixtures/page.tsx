@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Fixture from "../components/fixture";
 import Footer from "../components/footer";
 import NavBar from "../components/navbar";
@@ -22,15 +22,43 @@ export default function Page() {
   const [fixtures, setFixtures] = useState<any[]>([]);
   const [selectedCompetition, setSelectedCompetition] = useState<string>("");
   const [competitionList, setCompetitionList] = useState<string[]>([]);
+  const [selectedTeam, setSelectedTeam] = useState<string>("");
+  const [teamList, setTeamList] = useState<string[]>([]);
+  const [teamSearchTerm, setTeamSearchTerm] = useState<string>("");
+  const [isTeamDropdownOpen, setIsTeamDropdownOpen] = useState<boolean>(false);
+  const teamInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        teamInputRef.current &&
+        !teamInputRef.current.contains(event.target as Node)
+      ) {
+        setIsTeamDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchGames = async () => {
       try {
         const games = await getGames();
         const filteredFixtures = games.filter(
-          (game: any) => !game.fields.result,
+          (game: any) =>
+            !game.fields.result &&
+            new Date(game.fields.dateAndTime) > new Date(),
         );
         setFixtures(filteredFixtures);
+
+        // Collect unique teams from all games
+        const allTeams = games.flatMap((game: any) => game.fields.teams || []);
+        const uniqueTeams = [...new Set(allTeams)].sort();
+        setTeamList(uniqueTeams);
       } catch (error) {
         console.error("Error fetching games: ", error);
       }
@@ -51,11 +79,39 @@ export default function Page() {
     fetchGames();
   }, []);
 
-  const filteredFixtures = selectedCompetition
-    ? fixtures.filter(
-        (fixture) => fixture.fields.comp?.fields.name === selectedCompetition,
-      )
-    : fixtures;
+  const filteredTeamList = teamList.filter((team) =>
+    team.toLowerCase().startsWith(teamSearchTerm.toLowerCase()),
+  );
+
+  const handleTeamSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTeamSearchTerm(e.target.value);
+    setIsTeamDropdownOpen(true);
+  };
+
+  const handleTeamSelect = (team: string) => {
+    setSelectedTeam(team);
+    setTeamSearchTerm(team);
+    setIsTeamDropdownOpen(false);
+  };
+
+  const handleTeamInputFocus = () => {
+    setIsTeamDropdownOpen(true);
+  };
+
+  const clearTeamFilter = () => {
+    setSelectedTeam("");
+    setTeamSearchTerm("");
+    setIsTeamDropdownOpen(false);
+  };
+
+  const filteredFixtures = fixtures.filter((fixture) => {
+    const competitionMatch =
+      !selectedCompetition ||
+      fixture.fields.comp?.fields.name === selectedCompetition;
+    const teamMatch =
+      !selectedTeam || fixture.fields.teams.includes(selectedTeam);
+    return competitionMatch && teamMatch;
+  });
 
   // Sort the filtered fixtures by date without mutating original list
   const sortedFixtures = [...filteredFixtures].sort(
@@ -98,27 +154,95 @@ export default function Page() {
             Upcoming Fixtures
           </h1>
 
-          <div className="mb-8">
-            <label
-              htmlFor="competition-select"
-              className="block text-sm font-medium text-primary mb-2"
-            >
-              Filter by Competition
-            </label>
-            <select
-              id="competition-select"
-              className="block w-full bg-primary text-secondary-lighter px-3 py-3 text-lg border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary-lighter focus:border-secondary-lighter"
-              value={selectedCompetition}
-              onChange={(e) => setSelectedCompetition(e.target.value)}
-            >
-              <option value="">All Competitions</option>
-              {competitionList.map((competition, index) => (
-                <option key={index} value={competition}>
-                  {competition}
-                </option>
-              ))}
-            </select>
+          <div className="grid grid-cols-1 md:grid-cols-2 md:gap-6 mb-8">
+            <div className="h-20">
+              <label
+                htmlFor="competition-select"
+                className="block text-sm font-medium text-primary mb-2"
+              >
+                Filter by Competition
+              </label>
+              <select
+                id="competition-select"
+                className="block w-full bg-primary text-secondary-lighter px-3 py-3 text-lg border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary-lighter focus:border-secondary-lighter h-12"
+                value={selectedCompetition}
+                onChange={(e) => setSelectedCompetition(e.target.value)}
+              >
+                <option value="">All Competitions</option>
+                {competitionList.map((competition, index) => (
+                  <option key={index} value={competition}>
+                    {competition}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="h-20">
+              <label
+                htmlFor="team-search"
+                className="block text-sm font-medium text-primary mb-2"
+              >
+                Filter by Team
+              </label>
+              <div className="relative" ref={teamInputRef}>
+                <input
+                  id="team-search"
+                  type="text"
+                  className="block w-full bg-primary text-secondary-lighter px-3 py-3 text-lg border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary-lighter focus:border-secondary-lighter h-12"
+                  value={teamSearchTerm}
+                  onChange={handleTeamSearchChange}
+                  onFocus={handleTeamInputFocus}
+                  placeholder="Search teams..."
+                />
+                {selectedTeam && (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      clearTeamFilter();
+                    }}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-secondary-lighter hover:text-gray-300"
+                  >
+                    ×
+                  </button>
+                )}
+                {isTeamDropdownOpen && filteredTeamList.length > 0 && (
+                  <div className="absolute z-10 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto mt-1">
+                    {filteredTeamList.map((team, index) => (
+                      <div
+                        key={index}
+                        className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-primary"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleTeamSelect(team);
+                        }}
+                      >
+                        {team}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
+
+          {(selectedCompetition || selectedTeam) && (
+            <div className="flex justify-center mb-6">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedCompetition("");
+                  setSelectedTeam("");
+                  setTeamSearchTerm("");
+                  setIsTeamDropdownOpen(false);
+                }}
+                className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors duration-200 text-sm font-medium"
+              >
+                Clear Filters
+              </button>
+            </div>
+          )}
 
           <div className="space-y-8">
             {groupedFixturesEntries.map(([dateLabel, fixtures]) => (
