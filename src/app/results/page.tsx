@@ -138,8 +138,8 @@ export default function Page() {
   // Sort the filtered results by date without mutating original list
   const sortedResults = [...filteredResults].sort(
     (a, b) =>
-      new Date(a.fields.dateAndTime).getTime() -
-      new Date(b.fields.dateAndTime).getTime(),
+      new Date(b.fields.dateAndTime).getTime() -
+      new Date(a.fields.dateAndTime).getTime(),
   );
 
   const groupedResults = sortedResults.reduce(
